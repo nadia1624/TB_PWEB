@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kaprodi | <%= title %></title>
+    <link href="/template.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+      <link rel="preconnect" href="https://fonts.googleapis.com">
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+      <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap" rel="stylesheet">
+      
+      <script>
+        function toggleSidebar() {
+            var sidebar = document.querySelector('.sidebar');
+            sidebar.classList.toggle('active');
+        }
+    </script>
+    
+</head>
+    <body>
+      <header>
+          <!-- Navbar -->
+          <nav class="navbar">
+            <div class="navbar-toggle" onclick="toggleSidebar()">
+              <div class="strip"></div>
+              <div class="strip"></div>
+              <div class="strip"></div>
+            </div>
+            <div class="profile-dropdown">
+              <img src="/img/profil.png" alt="Foto Profil">
+              <div class="profile-dropdown-content">
+                  <a href="profile">Profil Saya</a>
+                  <a href="ubahPassword">Ubah Password</a>
+              </div>
+          </div>
+          </nav>   
+      </header>
+      <aside>
+        <!-- Sidebar -->
+        <div class="sidebar">
+          
+            <ul>
+              <li><a href="/kaprodi/dashboard"><i class="fas fa-home"></i> Dashboard</a></li>
+              <li><a href="/kaprodi/persetujuan"><i class="fas fa-check-circle"></i> Persetujuan</a></li>
+              <li><a href="/kaprodi/diterima"><i class="fas fa-check"></i> Diterima</a></li>
+              <li><a href="/kaprodi/ditolak"><i class="fas fa-times"></i> Ditolak</a></li>
+              <li><a href="/kaprodi/riwayat"><i class="fas fa-history"></i> Riwayat</a></li>
+            </ul>
+            <!-- Logout link at the bottom -->
+                 <!-- Form logout -->
+    <form id="logout-form" method="POST" action="/auth/logout">
+      <button type="button" class="logout" id="logout-button"><i class="fas fa-sign-out-alt"></i> Logout</button>
+  </form>
+
+  <!-- Modal konfirmasi -->
+  <div id="modal" class="modal" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+      <div class="modal-content">
+          <div class="modal-header">
+            <i class="fa-solid fa-right-from-bracket" style="color: #333;font-size: 3em; margin-bottom: 10px;"; ></i>
+              <h2 id="modal-title">Logout Confirmation</h2>
+          </div>
+          <div class="modal-body">
+              <p>Are you sure you want to logout?</p>
+          </div>
+          <div class="modal-footer">
+              <button id="cancel-logout" type="button" class="cancel-button">Cancel</button>
+              <button id="confirm-logout" type="button" class="confirm-button">Logout</button>
+          </div>
+      </div>
+  </div>
+
+  <script>
+     
+      document.getElementById('logout-button').addEventListener('click', function() {
+          document.getElementById('modal').classList.add('show');
+      });
+
+    
+      document.getElementById('confirm-logout').addEventListener('click', function() {
+          document.getElementById('logout-form').submit();
+      });
+
+      
+      document.getElementById('cancel-logout').addEventListener('click', function() {
+          document.getElementById('modal').classList.remove('show');
+      });
+
+  </script> 
+  
+          </div>
+    </aside>
+    <main>
+      <%= content %>
+  </main>
+  <!-- Kontainer untuk notifikasi -->
+  <div id="notification-container" class="notification-container"></div>
+
+  <!-- Menyertakan script untuk socket.io -->
+  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+  <!-- Menyertakan script notifikasi -->
+  <script>
+    const socket = io("http://localhost:3000");
+
+    socket.on("connect", () => {
+      console.log("Connected to Kaprodi");
+      socket.emit("joinRoom", "kaprodi");
+    });
+
+    socket.on("new_formulir", (data) => {
+      console.log(data);
+      console.log("Notifikasi baru:", data);
+      showNotification(data, "kegiatan");
+    });
+
+    function showNotification(data) {
+    const notificationContainer = document.getElementById('notification-container');
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.innerHTML = `
+        <strong>${data.message}</strong>
+        <p>${data.formulir.nim} mengirimkan formulir</p>
+    `;
+    notificationContainer.appendChild(notification);
+
+    setTimeout(() => {
+        notificationContainer.removeChild(notification);
+    }, 5000);
+    }
+
+  </script>
+  </body>
+  
+    
+</body>
+</html>

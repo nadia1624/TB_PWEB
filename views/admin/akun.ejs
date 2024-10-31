@@ -1,0 +1,31 @@
+<% const akunContent = '' %>
+<%- include('./template', { content: akunContent }) %>
+
+<div class="container">
+    <h1 class="custom-heading">Daftar Akun Pengguna</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nama</th>
+                <th>Email</th>
+                <th>No. Identitas</th>
+                <th>No. Telp</th>
+                <th>Alamat</th>
+                <th>Role</th>
+            </tr>
+            <tbody>
+                <% lihatAkun.forEach ( (akun ) => { %>
+                    <tr>
+                        <td><%= akun.nama_depan %> <%= akun.nama_belakang %></td>
+                        <td><%= akun.email %></td>
+                        <td><%= akun.no_identitas %></td>
+                        <td> <%= akun.no_hp %></td>
+                        <td> <%= akun.alamat %></td>
+                        <td><%= akun.role %></td>
+                    </tr>
+                    <% }) %>
+            </tbody>
+            
+        </thead>
+    </table>
+</div>

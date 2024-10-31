@@ -1,0 +1,50 @@
+{
+  "dependencies": {
+    "@ironsoftware/ironpdf": "^2024.5.1",
+    "@ironsoftware/ironpdf-engine-windows-x64": "^2024.5.1",
+    "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "docxtemplater": "^3.47.4",
+    "docxtemplater-image-module": "^3.1.0",
+    "docxtemplater-image-module-free": "^1.1.1",
+    "dotenv": "^16.4.5",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-ejs-layouts": "^2.5.1",
+    "http-errors": "^2.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "libreoffice-convert": "^1.5.1",
+    "method-override": "^3.0.0",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql": "^2.18.1",
+    "mysql2": "^3.9.8",
+    "nodemailer": "^6.9.13",
+    "pdf-lib": "^1.17.1",
+    "pizzip": "^3.1.7",
+    "preline": "^2.1.0",
+    "sequelize": "^6.37.3",
+    "sequelize-cli": "^6.6.2",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
+    "sqlite3": "^5.1.7"
+  },
+  "scripts": {
+    "start": "node ./bin/www & npx tailwindcss -i ./src/input.css ./public ./public/style.css --watch",
+    "dev": "nodemon app.js ",
+    "build": "tailwindcss -i ./src/input.css -o ./public/style.css --watch"
+  },
+  "devDependencies": {
+    "daisyui": "^4.10.5",
+    "tailwindcss": "^3.4.3"
+  },
+  "name": "tb_pweb_kelompok-10",
+  "version": "1.0.0",
+  "main": "app.js",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "type": "commonjs"
+}

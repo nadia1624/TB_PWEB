@@ -1,0 +1,38 @@
+<% const riwayatPermintaanDisetujuiContent = '' %>
+<%- include('./template', { content: riwayatPermintaanDisetujuiContent }) %>
+
+<body>
+    <div class="container mx-auto mt-4">
+        <h2 class="text-2xl font-semibold mb-4">Riwayat Permintaan Disetujui</h2>
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse border border-gray-300">
+                <thead class="bg-gray-200">
+                    <tr>
+                        <th>No.</th>
+                        <th class="border border-gray-300 px-4 py-2">Tanggal Dikirim</th>
+                        <th class="border border-gray-300 px-4 py-2">Penerima</th>
+                        <th class="border border-gray-300 px-4 py-2">Instansi</th>
+                        <th class="border border-gray-300 px-4 py-2">Judul TA</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% riwayatPermintaanDisetujui.forEach(function(request, index = 0) { %>
+                        <tr>
+                            <td><%= index+1 %></td>
+                            <td class="border border-gray-300 px-4 py-2"><%= request.tanggalDikirim %></td>
+                            <td class="border border-gray-300 px-4 py-2"><%= request.penerima %></td>
+                            <td class="border border-gray-300 px-4 py-2"><%= request.instansi %></td>
+                            <td class="border border-gray-300 px-4 py-2"><%= request.judulTA %></td>
+                                </form>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script src="https://unpkg.com/preline/dist/preline.js"></script>
+</body>
+</html>
+<script>
+</script>

@@ -1,0 +1,25 @@
+<% const profileContent = '' %>
+<%- include('./template', { content: profileContent }) %>
+
+<div class="container">
+    <h1 class="heading">Profil Pengguna</h1>
+    <div class="profile-info">
+      <div class="info-row">
+        <span class="info-label">Email:</span>
+        <span class="info-value"><%= userEmail %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Nama :</span>
+        <span class="info-value"><%= userNamaDepan %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">No HP:</span>
+        <span class="info-value"><%= userNo_Hp %></span>
+      </div>
+      <div class="info-row">
+        <span class="info-label">Alamat:</span>
+        <span class="info-value"><%= userAlamat %></span>
+      </div>  
+    </div>
+  </div>
+  

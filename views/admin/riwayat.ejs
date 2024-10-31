@@ -1,0 +1,133 @@
+<% const riwayatContent = ' ' %>
+<%- include('./template', { content: riwayatContent }) %>
+
+<div class="container">
+    <h1 class="custom-heading">Riwayat Permintaan Surat</h1>
+    <div class="dropdown">
+        <button class="dropbtn"><i class="fa-solid fa-filter"></i> Angkatan</button>
+        <div class="dropdown-content">
+          <a href="/admin/riwayat/2017">2017</a>
+          <a href="/admin/riwayat/2018">2018</a>
+          <a href="/admin/riwayat/2019">2019</a>
+          <a href="/admin/riwayat/2020">2020</a>
+          <a href="/admin/riwayat/2021">2021</a>
+          <a href="/admin/riwayat/2022">2022</a>
+        </div>
+      </div>
+    <table id="data" data = "<%= JSON.stringify(riwayatSurat) %>">
+        <thead>
+            <tr>
+                <th>No.</th>
+                <th>Tanggal</th>
+                <th>Nama</th>
+                <th>NIM</th>
+                <th>Angkatan</th>
+                <th>Surat</th>
+                <th>Hapus Surat</th>
+                <th>Kirim Lewat Email</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% riwayatSurat.forEach((riwayat,index=0) => { %>    
+            <tr> 
+                <td><%= index+1 %></td>       
+                <td><%= riwayat.tanggalDisetujui %></td>
+                <td><%= riwayat.User.nama_depan %> <%= riwayat.User.nama_belakang %></td>
+                <td><%= riwayat.User.no_identitas %></td>
+                <td><%= riwayat.User.angkatan %></td>
+                <td>
+                    <% if (riwayat.Surat.nama_file) { %>
+                    <a href="/data/surat/<%= riwayat.Surat.nama_file %>" target="_blank" class="btn">Lihat Surat</a>
+                <% } else { %>
+                    <p>Surat tidak tersedia</p>
+                <% } %>
+                    
+                </td>
+                <td>
+                        <button id="hapus-button<%= index+1 %>" type="button" class="btn" ><i class="fas fa-trash"></i>Hapus</button>
+                </td>
+                <td>                    
+                    <form id="email-form<%= index + 1 %>" action="/admin/kirim-email/<%= riwayat.nomorSurat %>" method="post">
+                        <button class="btn" type="submit">Send To Email</button>
+                    </form>
+                </td>
+            </tr>
+            
+            <div id="modalhapus<%= index+1 %>" class="modal" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2 id="modal-title">Accepted Confirmation</h2>
+                    </div>
+                    <div class="modal-body">
+                        <p>Apakah Anda yakin menghapus surat ini?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="custom-confirm" >
+                            <button id="cancel-accept<%= index+1 %>" type="button" class="cancel-button">Cancel</button>
+                            <form action="/admin/deletesurat/<%= riwayat.nomorSurat %>/delete" method="POST">
+                                <button id="confirm-accept<%= index+1 %>" type="submit" class="confirm-button">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                        
+            <div id="modalSuccess<%= index + 1 %>" class="modal" aria-labelledby="modal-success-title" role="dialog" aria-modal="true">
+                <div class="modal-content">
+                     <div class="modal-header">
+                        <i class="fa-regular fa-circle-check custom-icon"></i>
+                         <p id="modal-success-title">Email Berhasil Dikirim</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button id="close-success<%= index + 1 %>" type="button" class="btn">Close</button>
+                        </div>
+                    </div>
+                </div>
+
+            <% }) %>
+        </tbody>
+    </table>
+    <script>
+        let data = document.getElementById('data').getAttribute('data')
+        data = JSON.parse(data)
+
+        console.log(data.length)
+              
+        for(let i=1;i<=data.length;i++ ){
+        
+            document.getElementById(`hapus-button${i}`).addEventListener('click', function() {
+                document.getElementById(`modalhapus${i}`).classList.add('show');
+            });
+            
+            document.getElementById(`confirm-accept${i}`).addEventListener('click', function() {
+                document.getElementById(`accept-form${i}`).classList.add('show');
+            });
+            
+            document.getElementById(`cancel-accept${i}`).addEventListener('click', function() {
+                document.getElementById(`modalhapus${i}`).classList.remove('show');
+            });
+            
+            document.getElementById(`email-form${i}`).addEventListener('submit', async function (event) {
+            event.preventDefault();
+            const response = await fetch(this.action, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            });
+            const result = await response.json();
+            if (result.success) {
+                console.log(response)
+                document.getElementById(`modalSuccess${i}`).classList.add('show');
+            } else {
+                alert('Gagal mengirim email.');
+            }
+        });
+
+        
+        document.getElementById(`close-success${i}`).addEventListener('click', function () {
+            document.getElementById(`modalSuccess${i}`).classList.remove('show');
+        });
+        }
+    </script>
+</div>
